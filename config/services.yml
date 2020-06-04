@@ -1,0 +1,15 @@
+services:
+  _defaults:
+    autowire: true
+    bind:
+      $organisation: '%env(string:GIT_ORGANISATION)%'
+      $authToken: '%env(string:AUTH_TOKEN)%'
+
+  App\:
+    resource: '../src'
+
+  App\Github\:
+    resource: '../src/Github'
+
+  Symfony\Component\Console\Application:
+    public: true
