@@ -11,5 +11,9 @@ services:
   App\Github\:
     resource: '../src/Github'
 
-  Symfony\Component\Console\Application:
-    public: true
+  App\Command\RateLimitCommand:
+    tags:
+      - { name: console.command, command: git:ratelimit }
+  App\Command\PrStatsCommand:
+    tags:
+      - { name: console.command, command: git:pullrequest:reviews }

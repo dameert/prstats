@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Github\ClientFactory;
-use App\Stats;
 use Github\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,14 +20,14 @@ final class RateLimitCommand extends Command
 
     public function __construct(ClientFactory $clientFactory)
     {
-        parent::__construct('pr:rate');
+        parent::__construct();
         $this->client = $clientFactory->getClient();
     }
 
     protected function configure()
     {
         $this
-            ->setDescription('Get Current Github Rate');
+            ->setDescription('Get Remaining Github Rate');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void

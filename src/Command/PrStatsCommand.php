@@ -28,7 +28,7 @@ final class PrStatsCommand extends Command
 
     public function __construct(string $organisation, ClientFactory $clientFactory)
     {
-        parent::__construct('pr:stats');
+        parent::__construct();
         $this->organisation = $organisation;
         $this->client = $clientFactory->getClient();
     }
