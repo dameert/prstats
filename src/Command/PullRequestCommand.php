@@ -58,7 +58,7 @@ final class PullRequestCommand extends Command
             $this->style->table(['User', 'Number of reviews'], $prData->toArray());
         }
 
-        return 1;
+        return Command::SUCCESS;
     }
 
 
