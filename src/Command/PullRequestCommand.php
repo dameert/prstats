@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\ValueObject\ApiRate;
-use App\PullRequest\Stats;
+use App\PullRequest\Statistics;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,22 +15,22 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class PullRequestCommand extends Command
 {
-    /** @var Stats */
-    private $stats;
+    /** @var Statistics */
+    private $statistics;
     /** @var SymfonyStyle */
     private $style;
 
-    public function __construct(Stats $stats)
+    public function __construct(Statistics $statistics)
     {
         parent::__construct();
-        $this->stats = $stats;
+        $this->statistics = $statistics;
     }
 
     protected function configure()
     {
         $this
             ->setDescription('Get Github pull request statistics')
-            ->addArgument('repository', InputArgument::REQUIRED, 'name of your repository')
+            ->addArgument('repositories', InputArgument::IS_ARRAY, 'name of your repository')
             ->addOption('max-age', null, InputOption::VALUE_OPTIONAL, 'max age of the pull request latest update', 'last month')
         ;
     }
@@ -43,22 +43,20 @@ final class PullRequestCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->style->title('Fetching list of Pull Requests');
-        $repository = $input->getArgument('repository');
-        $maxAge = $input->getOption('max-age');
+        $this->style->title('Pull Requests Statistics');
 
-        $rate = new ApiRate();
+        $repositories = $input->getArgument('repositories');
+        $maxAge = new \DateTimeImmutable($input->getOption('max-age'));
 
-        try {
-            $pulls = $this->stats->getAllPullRequests($repository, $rate);
-            $reviewCount = $this->stats->generateUsersReviewCount($pulls, $repository, $rate, new \DateTimeImmutable($maxAge));
-        } catch (\Exception $e) {
-            $this->style->error(sprintf('Github rate limit exceeded, performed %d api calls.', $rate->getRate()));
-            throw $e;
+        foreach ($repositories as $repository) {
+            $this->style->comment(sprintf('Statistics for %s', $repository));
+
+            $rate = new ApiRate();
+            $prData = $this->statistics->getPullRequestData($repository, $maxAge, $rate);
+
+            $this->style->note(sprintf('Performed %d api calls', $rate->getRate()));
+            $this->style->table(['User', 'Number of reviews'], $prData->toArray());
         }
-
-        $this->style->note(sprintf('Performed %d api calls', $rate->getRate()));
-        $this->style->table(['User', 'Number of reviews'], $reviewCount->toArray());
 
         return 1;
     }

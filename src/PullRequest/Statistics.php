@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\PullRequest;
 
 use App\ValueObject\ApiRate;
-use App\ValueObject\Users;
+use App\ValueObject\PullRequestData;
 use Github\Client;
 use Github\ResultPager;
 use Github\ResultPagerInterface;
 use Symfony\Component\HttpClient\HttpClient;
 
-class Stats
+class Statistics
 {
     /** @var HttpClient */
     private $client;
@@ -27,7 +27,12 @@ class Stats
         $this->organisation = $organisation;
     }
 
-    public function getAllPullRequests(string $repository, ApiRate $rate): array
+    public function getPullRequestData(string $repository, \DateTimeImmutable $maxAge, ApiRate $rate): PullRequestData
+    {
+        return $this->generateReviewsForPullrequests($this->getAllPullRequests($repository, $rate), $repository, $rate, $maxAge);
+    }
+
+    private function getAllPullRequests(string $repository, ApiRate $rate): array
     {
         $pullRequestApi = $this->client->api('pull_request');
         $paginator  = new ResultPager($this->client);
@@ -38,9 +43,9 @@ class Stats
         return $result = $this->paginateRequest($paginator, $firstPage, $rate);
     }
 
-    public function generateUsersReviewCount(array $pulls, string $repository, ApiRate $rate, \DateTimeImmutable $maxAge): Users
+    private function generateReviewsForPullrequests(array $pulls, string $repository, ApiRate $rate, \DateTimeImmutable $maxAge): PullRequestData
     {
-        $users = new Users();
+        $users = new PullRequestData();
 
         foreach ($pulls as $pull) {
             if ($this->isPullOlderThen($pull, $maxAge)){
