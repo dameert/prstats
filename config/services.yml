@@ -14,5 +14,5 @@ services:
 
   App\Command\PullRequestCommand:
     tags:
-      - { name: console.command, command: stats:pullrequest}
+      - { name: console.command, command: stats:pullrequests}
       - { name: console.command, command: stats:pr}
