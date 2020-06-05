@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Counts\ApiRate;
-use App\Github\ClientFactory;
-use App\Stats;
-use Github\Client;
+use App\ValueObject\ApiRate;
+use App\PullRequest\Stats;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,28 +13,23 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class PrStatsCommand extends Command
+final class PullRequestCommand extends Command
 {
-    /** @var string */
-    private $organisation;
     /** @var Stats */
     private $stats;
     /** @var SymfonyStyle */
     private $style;
-    /** @var Client */
-    private $client;
 
-    public function __construct(string $organisation, ClientFactory $clientFactory)
+    public function __construct(Stats $stats)
     {
         parent::__construct();
-        $this->organisation = $organisation;
-        $this->client = $clientFactory->getClient();
+        $this->stats = $stats;
     }
 
     protected function configure()
     {
         $this
-            ->setDescription('Get Github PR statistics')
+            ->setDescription('Get Github pull request statistics')
             ->addArgument('repository', InputArgument::REQUIRED, 'name of your repository')
             ->addOption('max-age', null, InputOption::VALUE_OPTIONAL, 'max age of the pull request latest update', 'last month')
         ;
@@ -46,7 +39,6 @@ final class PrStatsCommand extends Command
     {
         parent::initialize($input, $output);
         $this->style = new SymfonyStyle($input, $output);
-        $this->stats = new Stats($this->organisation, $this->client);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

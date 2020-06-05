@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Counts;
+namespace App\ValueObject;
 
 class Review
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\PullRequest;
 
-use App\Counts\ApiRate;
-use App\Counts\Users;
+use App\ValueObject\ApiRate;
+use App\ValueObject\Users;
 use Github\Client;
 use Github\ResultPager;
 use Github\ResultPagerInterface;

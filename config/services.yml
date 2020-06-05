@@ -6,14 +6,13 @@ services:
       $authToken: '%env(string:AUTH_TOKEN)%'
 
   App\:
-    resource: '../src'
+    resource: '../src/*'
+    exclude: '../src/{ValueObject,Kernel.php}'
 
-  App\Github\:
-    resource: '../src/Github'
+  Github\Client:
+    factory: '@App\Github\ClientFactory'
 
-  App\Command\RateLimitCommand:
+  App\Command\PullRequestCommand:
     tags:
-      - { name: console.command, command: git:ratelimit }
-  App\Command\PrStatsCommand:
-    tags:
-      - { name: console.command, command: git:pullrequest:reviews }
+      - { name: console.command, command: stats:pullrequest}
+      - { name: console.command, command: stats:pr}

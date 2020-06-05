@@ -10,22 +10,16 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
 
 class ClientFactory
 {
-    /** @var Client */
-    private $client;
-
-    public function __construct(string $authToken)
+    public function __invoke(string $authToken): Client
     {
-        $this->client = new Client();
+        $client = new Client();
 
-        if ($this->client instanceof LoggerAwareInterface) {
-            $this->client->setLogger(new ConsoleLogger);
+        if ($client instanceof LoggerAwareInterface) {
+            $client->setLogger(new ConsoleLogger);
         }
 
-        $this->client->authenticate($authToken, Client::AUTH_HTTP_TOKEN);
-    }
+        $client->authenticate($authToken, Client::AUTH_HTTP_TOKEN);
 
-    public function getClient(): Client
-    {
-        return $this->client;
+        return $client;
     }
 }
