@@ -27,6 +27,11 @@ class Statistics
         $this->organisation = $organisation;
     }
 
+    public function getTableHeader(): array
+    {
+        return ['User', 'Number of reviews'];
+    }
+
     public function getPullRequestData(string $repository, \DateTimeImmutable $maxAge, ApiRate $rate): PullRequestData
     {
         return $this->generateReviewsForPullrequests($this->getAllPullRequests($repository, $rate), $repository, $rate, $maxAge);

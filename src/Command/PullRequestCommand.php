@@ -55,7 +55,7 @@ final class PullRequestCommand extends Command
             $prData = $this->statistics->getPullRequestData($repository, $maxAge, $rate);
 
             $this->style->note(sprintf('Performed %d api calls', $rate->getRate()));
-            $this->style->table(['User', 'Number of reviews'], $prData->toArray());
+            $this->style->table($this->statistics->getTableHeader(), $prData->toArray());
         }
 
         return Command::SUCCESS;
