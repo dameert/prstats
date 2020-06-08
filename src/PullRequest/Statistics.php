@@ -9,17 +9,14 @@ use App\ValueObject\PullRequestData;
 use Github\Client;
 use Github\ResultPager;
 use Github\ResultPagerInterface;
-use Symfony\Component\HttpClient\HttpClient;
 
 class Statistics
 {
-    /** @var HttpClient */
+    /** @var Client */
     private $client;
 
     /** @var string */
     private $organisation;
-
-    private CONST PULL_REQUESTS = '/repos/%s/%s/pulls';
 
     public function __construct(string $organisation, Client $client)
     {

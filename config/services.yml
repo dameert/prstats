@@ -5,6 +5,10 @@ services:
       $organisation: '%env(string:GIT_ORGANISATION)%'
       $authToken: '%env(string:AUTH_TOKEN)%'
 
+  _instanceof:
+    Symfony\Component\EventDispatcher\EventSubscriberInterface:
+      tags: ['kernel.event_subscriber']
+
   App\:
     resource: '../src/*'
     exclude: '../src/{ValueObject,Kernel.php}'

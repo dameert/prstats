@@ -18,7 +18,9 @@ class ClientFactory
             $client->setLogger(new ConsoleLogger);
         }
 
-        $client->authenticate($authToken, Client::AUTH_HTTP_TOKEN);
+        if ($authToken !== '') {
+            $client->authenticate($authToken, Client::AUTH_HTTP_TOKEN);
+        }
 
         return $client;
     }

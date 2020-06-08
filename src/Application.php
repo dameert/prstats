@@ -15,6 +15,7 @@ final class Application extends BaseApplication
         $container = $kernel->getContainer();
 
         $this->setCommandLoader($container->get('console.command_loader'));
+        $this->setDispatcher($container->get('event_dispatcher'));
 
         parent::__construct('Pull Request Statistics', Kernel::VERSION);
     }
