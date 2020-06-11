@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\ValueObject\ApiRate;
 use App\PullRequest\Statistics;
+use App\ValueObject\CommandApiRate;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,12 +48,16 @@ final class PullRequestCommand extends Command implements CommandInterface
         $repositories = $input->getArgument('repositories');
         $maxAge = new \DateTimeImmutable($input->getOption('max-age'));
 
+
         foreach ($repositories as $repository) {
             $this->style->comment(sprintf('Statistics for %s', $repository));
+            $this->style->createProgressBar();
+            $this->style->progressStart();
 
-            $rate = new ApiRate();
+            $rate = new CommandApiRate($this->style);
             $prData = $this->statistics->getPullRequestData($repository, $maxAge, $rate);
-
+            
+            $this->style->progressFinish();
             $this->style->note(sprintf('Performed %d api calls', $rate->getRate()));
             $this->style->table($this->statistics->getTableHeader(), $prData->toArray());
         }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\PullRequest;
 
-use App\ValueObject\ApiRate;
+use App\ValueObject\ApiRateInterface;
 use App\ValueObject\PullRequestData;
 use Github\Client;
 use Github\ResultPager;
@@ -29,12 +29,12 @@ class Statistics
         return ['User', 'Number of reviews'];
     }
 
-    public function getPullRequestData(string $repository, \DateTimeImmutable $maxAge, ApiRate $rate): PullRequestData
+    public function getPullRequestData(string $repository, \DateTimeImmutable $maxAge, ApiRateInterface $rate): PullRequestData
     {
         return $this->generateReviewsForPullrequests($this->getAllPullRequests($repository, $rate), $repository, $rate, $maxAge);
     }
 
-    private function getAllPullRequests(string $repository, ApiRate $rate): array
+    private function getAllPullRequests(string $repository, ApiRateInterface $rate): array
     {
         $pullRequestApi = $this->client->api('pull_request');
         $paginator  = new ResultPager($this->client);
@@ -45,7 +45,7 @@ class Statistics
         return $result = $this->paginateRequest($paginator, $firstPage, $rate);
     }
 
-    private function generateReviewsForPullrequests(array $pulls, string $repository, ApiRate $rate, \DateTimeImmutable $maxAge): PullRequestData
+    private function generateReviewsForPullrequests(array $pulls, string $repository, ApiRateInterface $rate, \DateTimeImmutable $maxAge): PullRequestData
     {
         $users = new PullRequestData();
 
@@ -62,7 +62,7 @@ class Statistics
         return $users;
     }
 
-    private function paginateRequest(ResultPagerInterface $paginator, array $result, ApiRate $rate): array
+    private function paginateRequest(ResultPagerInterface $paginator, array $result, ApiRateInterface $rate): array
     {
         if (!$paginator->hasNext()) {
             return $result;
