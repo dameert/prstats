@@ -12,11 +12,8 @@ use Github\ResultPagerInterface;
 
 class Statistics
 {
-    /** @var Client */
-    private $client;
-
-    /** @var string */
-    private $organisation;
+    private Client $client;
+    private string $organisation;
 
     public function __construct(string $organisation, Client $client)
     {

@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\ValueObject;
 
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class CommandApiRate implements ApiRateInterface
 {
-    /** @var ProgressBar */
-    private $style;
-    /** @var ApiRate */
-    private $rate;
+    private SymfonyStyle $style;
+    private ApiRate $rate;
 
     public function __construct(SymfonyStyle $style)
     {

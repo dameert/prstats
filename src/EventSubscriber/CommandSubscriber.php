@@ -15,8 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class CommandSubscriber implements EventSubscriberInterface
 {
-    /** @var Rate */
-    private $rate;
+    private Rate $rate;
 
     public function __construct(Rate $rate)
     {

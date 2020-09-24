@@ -6,8 +6,7 @@ namespace App\ValueObject;
 
 class Review
 {
-    /** @var array  */
-    private $review;
+    private array $review;
 
     public function __construct(array $review)
     {

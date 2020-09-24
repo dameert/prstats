@@ -6,7 +6,7 @@ PHP command application to retrieve pull request review statistics.
 Requirements
 ------------
 
-    * PHP 7.2.5 or higher
+    * PHP 7.4.3 or higher
     
 Installation
 ------------
@@ -23,7 +23,7 @@ Provided the **GIT_ORGANISATION** and **AUTH_TOKEN** in the new [.env](.env) fil
 
 ````bash
 php run
-Pull Request Statistics 5.0.8
+Pull Request Statistics 5.1.5
 
 Usage:
   command [options] [arguments]
@@ -38,8 +38,8 @@ Options:
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Available commands:
-  help               Displays help for a command
-  list               Lists commands
+  help                Displays help for a command
+  list                Lists commands
  stats
   stats:pullrequests  [stats:pr] Get Github pull request statistics
 ````

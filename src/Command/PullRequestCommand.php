@@ -15,10 +15,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class PullRequestCommand extends Command implements CommandInterface
 {
-    /** @var Statistics */
-    private $statistics;
-    /** @var SymfonyStyle */
-    private $style;
+    private Statistics $statistics;
+    private SymfonyStyle $style;
 
     public function __construct(Statistics $statistics)
     {
