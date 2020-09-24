@@ -7,7 +7,7 @@
         }
     ],
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4.3",
         "ext-json": "*",
         "knplabs/github-api": "^2.14",
         "php-http/guzzle6-adapter": "^1.1",

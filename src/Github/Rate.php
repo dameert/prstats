@@ -8,8 +8,7 @@ use Github\Client;
 
 final class Rate
 {
-    /** @var Client */
-    private $client;
+    private Client $client;
 
     public function __construct(Client $client)
     {

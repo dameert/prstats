@@ -6,8 +6,7 @@ namespace App\ValueObject;
 
 final class ApiRate implements ApiRateInterface
 {
-    /** @var int */
-    private $rate;
+    private int $rate;
 
     public function __construct()
     {

@@ -6,8 +6,7 @@ namespace App\ValueObject;
 
 class PullRequestData
 {
-    /** @var array */
-    private $users;
+    private array $users;
 
     public function __construct()
     {
